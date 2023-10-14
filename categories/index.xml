@@ -5,6 +5,25 @@
     <link>https://Moondok.github.io/blogs/categories/</link>
     <description>Recent content in Categories on Moondok&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://Moondok.github.io/blogs/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Sat, 14 Oct 2023 19:42:19 +0800</lastBuildDate><atom:link href="https://Moondok.github.io/blogs/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>life</title>
+      <link>https://Moondok.github.io/blogs/categories/life/</link>
+      <pubDate>Sat, 14 Oct 2023 19:42:19 +0800</pubDate>
+      
+      <guid>https://Moondok.github.io/blogs/categories/life/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tech</title>
+      <link>https://Moondok.github.io/blogs/categories/tech/</link>
+      <pubDate>Sat, 14 Oct 2023 19:42:10 +0800</pubDate>
+      
+      <guid>https://Moondok.github.io/blogs/categories/tech/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
