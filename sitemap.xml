@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://Moondok.github.io/blogs/posts/life/</loc>
+    <lastmod>2023-10-14T20:07:14+08:00</lastmod>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/</loc>
+    <lastmod>2023-10-14T20:07:14+08:00</lastmod>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/posts/</loc>
+    <lastmod>2023-10-14T20:07:14+08:00</lastmod>
+  </url><url>
     <loc>https://Moondok.github.io/blogs/categories/</loc>
     <lastmod>2023-10-14T19:42:19+08:00</lastmod>
   </url><url>
@@ -9,12 +18,6 @@
     <lastmod>2023-10-14T19:42:19+08:00</lastmod>
   </url><url>
     <loc>https://Moondok.github.io/blogs/tags/love/</loc>
-    <lastmod>2023-10-14T19:42:19+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/</loc>
-    <lastmod>2023-10-14T19:42:19+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/posts/</loc>
     <lastmod>2023-10-14T19:42:19+08:00</lastmod>
   </url><url>
     <loc>https://Moondok.github.io/blogs/posts/life/t3/</loc>
@@ -28,21 +31,6 @@
   </url><url>
     <loc>https://Moondok.github.io/blogs/posts/life/t2/</loc>
     <lastmod>2023-10-14T19:42:15+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/tags/slam/</loc>
-    <lastmod>2023-10-14T19:42:10+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/posts/tech/t2/</loc>
-    <lastmod>2023-10-14T19:42:10+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/categories/tech/</loc>
-    <lastmod>2023-10-14T19:42:10+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/tags/misc/</loc>
-    <lastmod>2023-10-14T19:42:05+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/posts/tech/t1/</loc>
-    <lastmod>2023-10-14T19:42:05+08:00</lastmod>
   </url><url>
     <loc>https://Moondok.github.io/blogs/archives/</loc>
   </url><url>
