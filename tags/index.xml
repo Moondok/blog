@@ -5,6 +5,34 @@
     <link>https://Moondok.github.io/blogs/tags/</link>
     <description>Recent content in Tags on Moondok&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://Moondok.github.io/blogs/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Sat, 14 Oct 2023 17:20:20 +0800</lastBuildDate><atom:link href="https://Moondok.github.io/blogs/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>painting</title>
+      <link>https://Moondok.github.io/blogs/tags/painting/</link>
+      <pubDate>Sat, 14 Oct 2023 17:20:20 +0800</pubDate>
+      
+      <guid>https://Moondok.github.io/blogs/tags/painting/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>AI</title>
+      <link>https://Moondok.github.io/blogs/tags/ai/</link>
+      <pubDate>Sat, 14 Oct 2023 17:20:15 +0800</pubDate>
+      
+      <guid>https://Moondok.github.io/blogs/tags/ai/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Computer Vision</title>
+      <link>https://Moondok.github.io/blogs/tags/computer-vision/</link>
+      <pubDate>Sat, 14 Oct 2023 17:20:15 +0800</pubDate>
+      
+      <guid>https://Moondok.github.io/blogs/tags/computer-vision/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
