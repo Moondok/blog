@@ -5,17 +5,7 @@
     <link>https://Moondok.github.io/blogs/</link>
     <description>Recent content on Moondok&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sat, 14 Oct 2023 18:47:01 +0800</lastBuildDate><atom:link href="https://Moondok.github.io/blogs/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>try</title>
-      <link>https://Moondok.github.io/blogs/tech/try/</link>
-      <pubDate>Sat, 14 Oct 2023 18:47:01 +0800</pubDate>
-      
-      <guid>https://Moondok.github.io/blogs/tech/try/</guid>
-      <description>可以出现马</description>
-    </item>
-    
+    <language>en-us</language><atom:link href="https://Moondok.github.io/blogs/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>
