@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Sat, 14 Oct 2023 20:07:14 +0800</lastBuildDate><atom:link href="https://Moondok.github.io/blogs/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>🙋🏻‍♂️ 关于</title>
+      <link>https://Moondok.github.io/blogs/about/</link>
+      <pubDate>Sat, 14 Oct 2023 20:10:13 +0800</pubDate>
+      
+      <guid>https://Moondok.github.io/blogs/about/</guid>
+      <description>Greetings! This is CHEN Kaixu (陳開煦) . Currently I am an undergraduate of Tongji Univ. This blog is built to record some technique details during my study. Also , I will record some interesting moments here.</description>
+    </item>
+    
+    <item>
       <title>T3</title>
       <link>https://Moondok.github.io/blogs/posts/life/t3/</link>
       <pubDate>Sat, 14 Oct 2023 19:42:19 +0800</pubDate>
@@ -22,6 +31,24 @@
       <pubDate>Sat, 14 Oct 2023 19:42:15 +0800</pubDate>
       
       <guid>https://Moondok.github.io/blogs/posts/life/t2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>T2</title>
+      <link>https://Moondok.github.io/blogs/posts/tech/t2/</link>
+      <pubDate>Sat, 14 Oct 2023 19:42:10 +0800</pubDate>
+      
+      <guid>https://Moondok.github.io/blogs/posts/tech/t2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>T1</title>
+      <link>https://Moondok.github.io/blogs/posts/tech/t1/</link>
+      <pubDate>Sat, 14 Oct 2023 19:42:05 +0800</pubDate>
+      
+      <guid>https://Moondok.github.io/blogs/posts/tech/t1/</guid>
       <description></description>
     </item>
     
