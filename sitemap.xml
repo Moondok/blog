@@ -2,36 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://Moondok.github.io/blogs/2/</loc>
-    <lastmod>2023-10-14T17:20:20+08:00</lastmod>
+    <loc>https://Moondok.github.io/blogs/archives/</loc>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/search/</loc>
   </url><url>
     <loc>https://Moondok.github.io/blogs/categories/</loc>
-    <lastmod>2023-10-14T17:20:20+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/categories/life/</loc>
-    <lastmod>2023-10-14T17:20:20+08:00</lastmod>
   </url><url>
     <loc>https://Moondok.github.io/blogs/</loc>
-    <lastmod>2023-10-14T17:20:20+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/tags/painting/</loc>
-    <lastmod>2023-10-14T17:20:20+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/tags/</loc>
-    <lastmod>2023-10-14T17:20:20+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/1/</loc>
-    <lastmod>2023-10-14T17:20:15+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/tags/ai/</loc>
-    <lastmod>2023-10-14T17:20:15+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/tags/computer-vision/</loc>
-    <lastmod>2023-10-14T17:20:15+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/categories/tech/</loc>
-    <lastmod>2023-10-14T17:20:15+08:00</lastmod>
   </url><url>
     <loc>https://Moondok.github.io/blogs/series/</loc>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/tags/</loc>
   </url>
 </urlset>
