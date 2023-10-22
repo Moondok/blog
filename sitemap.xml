@@ -2,34 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://Moondok.github.io/blogs/categories/</loc>
+    <lastmod>2023-10-22T21:40:47+08:00</lastmod>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/categories/life/</loc>
+    <lastmod>2023-10-22T21:40:47+08:00</lastmod>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/</loc>
+    <lastmod>2023-10-22T21:40:47+08:00</lastmod>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/posts/</loc>
+    <lastmod>2023-10-22T21:40:47+08:00</lastmod>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/tags/</loc>
+    <lastmod>2023-10-22T21:40:47+08:00</lastmod>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/tags/%E4%B8%8A%E6%B5%B7%E5%8E%86%E5%8F%B2%E5%8D%9A%E7%89%A9%E9%A6%86/</loc>
+    <lastmod>2023-10-22T21:40:47+08:00</lastmod>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/tags/%E6%B5%A6%E4%B8%9C%E7%BE%8E%E6%9C%AF%E9%A6%86/</loc>
+    <lastmod>2023-10-22T21:40:47+08:00</lastmod>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/tags/%E8%A5%BF%E6%96%B9%E7%BB%98%E7%94%BB/</loc>
+    <lastmod>2023-10-22T21:40:47+08:00</lastmod>
+  </url><url>
+    <loc>https://Moondok.github.io/blogs/posts/life/2023_10_22_map/</loc>
+    <lastmod>2023-10-22T21:40:47+08:00</lastmod>
+  </url><url>
     <loc>https://Moondok.github.io/blogs/about/</loc>
     <lastmod>2023-10-14T20:10:13+08:00</lastmod>
   </url><url>
     <loc>https://Moondok.github.io/blogs/posts/life/</loc>
     <lastmod>2023-10-14T20:07:14+08:00</lastmod>
   </url><url>
-    <loc>https://Moondok.github.io/blogs/</loc>
-    <lastmod>2023-10-14T20:07:14+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/posts/</loc>
-    <lastmod>2023-10-14T20:07:14+08:00</lastmod>
-  </url><url>
     <loc>https://Moondok.github.io/blogs/posts/tech/</loc>
     <lastmod>2023-10-14T20:05:39+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/categories/</loc>
-    <lastmod>2023-10-14T19:42:19+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/categories/life/</loc>
-    <lastmod>2023-10-14T19:42:19+08:00</lastmod>
   </url><url>
     <loc>https://Moondok.github.io/blogs/tags/love/</loc>
     <lastmod>2023-10-14T19:42:19+08:00</lastmod>
   </url><url>
     <loc>https://Moondok.github.io/blogs/posts/life/t3/</loc>
-    <lastmod>2023-10-14T19:42:19+08:00</lastmod>
-  </url><url>
-    <loc>https://Moondok.github.io/blogs/tags/</loc>
     <lastmod>2023-10-14T19:42:19+08:00</lastmod>
   </url><url>
     <loc>https://Moondok.github.io/blogs/tags/food/</loc>
