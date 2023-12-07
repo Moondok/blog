@@ -6,7 +6,16 @@
     <description>Recent content on Moondok&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 22 Oct 2023 21:40:47 +0800</lastBuildDate><atom:link href="https://Moondok.github.io/blogs/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 07 Dec 2023 11:03:25 +0800</lastBuildDate><atom:link href="https://Moondok.github.io/blogs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>操作系统笔记-进程管理-创建与退出</title>
+      <link>https://Moondok.github.io/blogs/posts/tech/os_process_manage_fork_exit_wait/</link>
+      <pubDate>Thu, 07 Dec 2023 11:03:25 +0800</pubDate>
+      
+      <guid>https://Moondok.github.io/blogs/posts/tech/os_process_manage_fork_exit_wait/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>记2023下半年的第一次进城</title>
       <link>https://Moondok.github.io/blogs/posts/life/2023_10_22_map/</link>

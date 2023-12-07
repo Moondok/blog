@@ -189,36 +189,99 @@
     <div class="post-meta"><span title='2023-10-22 21:40:47 +0800 CST'>October 22, 2023</span>&nbsp;·&nbsp;Moondok
 
 </div>
-  </header> <div class="toc">
-    <details >
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">Table of Contents</span>
-        </summary>
+  </header> 
+                    
+                    <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
 
-        <div class="inner"><ul>
-                <li>
-                    <a href="#%e5%86%99%e5%9c%a8%e5%89%8d%e9%9d%a2" aria-label="写在前面">写在前面</a></li>
-                <li>
-                    <a href="#%e7%9b%b8%e4%ba%b2%e8%a7%92" aria-label="相亲角">相亲角</a></li>
-                <li>
-                    <a href="#%e4%b8%8a%e6%b5%b7%e5%8e%86%e5%8f%b2%e5%8d%9a%e7%89%a9%e9%a6%86" aria-label="上海历史博物馆">上海历史博物馆</a><ul>
-                        
-                <li>
-                    <a href="#%e5%89%8d%e5%8e%85" aria-label="前厅">前厅</a></li>
-                <li>
-                    <a href="#%e4%b8%8a%e6%b5%b7%e5%8f%a4%e4%bb%a3%e5%8f%b2" aria-label="上海古代史">上海古代史</a><ul>
-                        
-                <li>
-                    <a href="#%e5%8f%b2%e5%89%8d" aria-label="史前">史前</a>
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e5%86%99%e5%9c%a8%e5%89%8d%e9%9d%a2" aria-label="写在前面">写在前面</a></li>
+                    <li>
+                        <a href="#%e7%9b%b8%e4%ba%b2%e8%a7%92" aria-label="相亲角">相亲角</a></li>
+                    <li>
+                        <a href="#%e4%b8%8a%e6%b5%b7%e5%8e%86%e5%8f%b2%e5%8d%9a%e7%89%a9%e9%a6%86" aria-label="上海历史博物馆">上海历史博物馆</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%89%8d%e5%8e%85" aria-label="前厅">前厅</a></li>
+                    <li>
+                        <a href="#%e4%b8%8a%e6%b5%b7%e5%8f%a4%e4%bb%a3%e5%8f%b2" aria-label="上海古代史">上海古代史</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%8f%b2%e5%89%8d" aria-label="史前">史前</a>
+                    </li>
+                </ul>
                 </li>
-            </ul>
-            </li>
-            </ul>
-            </li>
-            </ul>
-        </div>
-    </details>
-</div>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
 
   <div class="post-content"><h1 id="写在前面">写在前面<a hidden class="anchor" aria-hidden="true" href="#写在前面">#</a></h1>
 <p>我本来以为我的第一篇博客是一篇正经的技术文档，没想到是出去玩&hellip; Anyway, 鉴于我在上学期（2023年上半年）就看到了浦东美术馆关于这个展览的宣传，到现在只有一个月就闭展了，故决定这周末进一趟城（2023-10-22）。</p>

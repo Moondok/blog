@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>操作系统笔记-进程管理-创建与退出 | Moondok&#39;s Blog</title>
+<meta name="keywords" content="操作系统, 进程管理">
+<meta name="description" content="操作系统笔记-进程管理-创建与退出 - Moondok&#39;s Blog">
+<meta name="author" content="Moondok">
+<link rel="canonical" href="https://Moondok.github.io/blogs/posts/tech/os_process_manage_fork_exit_wait/">
+<link crossorigin="anonymous" href="/blogs/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/blogs/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="apple-touch-icon" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="mask-icon" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+
+<meta property="og:title" content="操作系统笔记-进程管理-创建与退出" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Moondok.github.io/blogs/posts/tech/os_process_manage_fork_exit_wait/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-07T11:03:25+08:00" />
+<meta property="article:modified_time" content="2023-12-07T11:03:25+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="操作系统笔记-进程管理-创建与退出"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://Moondok.github.io/blogs/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "👨‍💻 tech",
+      "item": "https://Moondok.github.io/blogs/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "操作系统笔记-进程管理-创建与退出",
+      "item": "https://Moondok.github.io/blogs/posts/tech/os_process_manage_fork_exit_wait/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "操作系统笔记-进程管理-创建与退出",
+  "name": "操作系统笔记-进程管理-创建与退出",
+  "description": "",
+  "keywords": [
+    "操作系统", "进程管理"
+  ],
+  "articleBody": "0. 说明 该系列小结为我在2023年秋修读同济大学操作系统课程的笔记，我校的操作系统课程主要以Unix v6 为范例进行剖析，因此以下的所有内容只适用于Unix v6 操作系统内核。另外，我校操作系统课程组对于Unix v6 操作系统的原始代码进行了面向对象的重构，下面给出的所有代码均为重构过后的代码片段。\n1. fork 1.1 fork系统调用简介与范例 fork 是一个系统调用，其主要功用为创建一个和当前进程 完全相同 的进程，新创建的进程为当前进程的子进程，二者的可交换部分完全相同，但彼此隔离，互不干扰，代码段共享。fork 的返回值是新创建的子进程的pid。\n下面是一个在用户态下调用fork 系统调用的代码示例片段。\nint a=0; main( ) { int i ; while( ( i=fork( ) ) == -1 ); if(i) { a = a+1; printf(“parent : a = %d\\n”, \u0026a); } else { a=a+4; printf(“child : a = %d\\n”, \u0026a); } } 在上面的代码段中，我们首先通过fork 创建了一个子进程，其pid 存储在i 变量中。在fork 系统调用成功创建新进程并准备返回时（系统调用入口程序SystemCallEntrance函数），系统执行例行调度。此时，新创建的子进程和原进程都可能被调度上台，具体情况由0号进程决定。\n假如原进程被先调度上台，则由于子进程创建成功，pid 势必不为0，进入if 分支，将a 的值改为1 ,并执行打印。在这之后原进程结束，子进程上台，进入else 分支，将a 的值改为4 （注意 ：子进程和父进程的数据段相互隔离，因此子进程中a的值仍为0），并进行打印，应用程序的输出为：\nparent : a=1 child : a=4 假如子进程被先调度上台，则进入else 分支，修改a 的值后打印。子进程结束后父进程被调度上台，进入if 分支后修改a 的值后执行打印，因此应用程序的输出为 :\nchild : a=4 parent : a=1 问题： 看到这里大家想必会有一个疑问，为什么子进程上台之后会进入else 分支执行呢？\n这是一个比较复杂的问题，我们需要读一读代码才能说清楚这件事。\n1.2 fork 系统调用代码解释 用户态下执行fork 系统调用的钩子函数如下\nint fork() { int res; __asm__ __volatile__ ( \"int $0x80\":\"=a\"(res):\"a\"(2)); // 2#系统调用 if ( res \u003e= 0 ) return res; return -1; } 这段代码很好理解，即使用int 0x80 指令让系统陷入内核后执行2号系统调用fork。\nfork 系统调用的函数如下\nint SystemCall::Sys_Fork() { ProcessManager\u0026 procMgr = Kernel::Instance().GetProcessManager(); procMgr.Fork(); return 0; /* GCC likes it ! */ } 可以看到在系统调用函数中，我们获取了内核的ProcessManager 对象，并执行其Fork 方法，接下来我们我们进入Fork函数内部去看看。\nvoid ProcessManager::Fork() { User\u0026 u = Kernel::Instance().GetUser(); Process* child = NULL;; /* 为子进程分配空闲的 process 项 */ for ( int i = 0; i \u003c ProcessManager::NPROC; i++ ) { if ( this-\u003eprocess[i].p_stat == Process::SNULL ) { child = \u0026this-\u003eprocess[i]; break; } } if ( child == NULL ) { /* 没有空闲 process 表项，返回 */ u.u_error = User::EAGAIN; return; } /* 调用 Newproc( )创建子进程，复制父进程图像 */ L： if ( this-\u003eNewProc() ) { /* 新建子进程被 Swtch( )选中上台运行， *执行 Swtch( )函数逻辑，返回值是 1 *运行于 Newproc( )栈帧，返回地址是 if 语句。*/ u.u_ar0[User::EAX] = 0; // 子进程 fork()系统调用返回 0 u.u_cstime = 0; // 清 0 子进程的时间统计量 u.u_stime = 0; u.u_cutime = 0; u.u_utime = 0; } else { /* 子进程图像创建完毕后，父进程 Newproc( )返回 0 */ u.u_ar0[User::EAX] = child-\u003ep_pid; // 父进程 fork()系统调用的返回值是子进程的 pid } return; } 在这个函数中，我们首先在process 表中查看有无空闲的表项，接着调用NewProc 函数。NewProc 函数的代码段很长，在此就不给出了，其主要功用是将父进程的可交换部分复制给子进程，且将子进程User 结构中的相对表指针u_MemoryDescriptor.m_UserPageTableArray 指向子进程的相对表。在完成了上述工作后，NewProc函数返回0。\n我们先停一下理一理头绪，现在我们的子进程已经创建起来了，其核心栈中栈顶处的几个栈帧分别为NewProc, Fork 和Sys_Fork ，子进程User 结构中的u_srav 中存储的esp和ebp 指针分别指向的是核心栈顶的NewProc栈帧的顶和底。\n当父进程的NewProc 返回时，其返回L 标签处的else 分支执行（NewProc的返回值为0），将新创建的子进程的pid存储在父进程核心栈中EAX 寄存器对应的区域以便我们在系统调用返回时能将返回值（即为子进程pid ）带入EAX 寄存器中。\n接下来Fork 函数返回，Sys_Fork 系统调用返回，在系统调用入口程序下半段执行例行调度Swtch 函数。\n假如此时被调度上台的还是父进程，则父进程通过自己的User 结构中的u_srav 找到Swtch 栈帧，执行Swtch的后半段后将其栈帧撤销，在这之后，返回系统调用入口程序的后半部分执行，回到用户态，非常合理顺畅。\n假如此时被调度上台的是我们新创建的子进程，则同样可以根据子进程的User 结构中的u_srav 找到… 慢着！子进程核心栈中有Swtch吗，没有啊！子进程是被父进程创建出来的，其从来就没执行过，上哪去找Swtch 栈帧？\n好，知道了这一点，让我们看看接下来会发生什么。尽管子进程中没有Swtch 栈帧，但Swtch 下半段还是要走，我们将Swtch 的返回值 1 熟练地放进EAX 寄存器中，然后撤销核心栈中栈顶的那个栈帧，对应的汇编代码如下\nmov $1 %eax mox %ebp %esp pop %ebp ret 那么此时我们撤销的栈帧是哪个倒霉蛋的呢？没错，就是NewProc 函数的栈帧！（这一点在上面提到过）换句话说，我们把NewProc 的栈帧当作Swtch 栈帧撤销掉了，并把Swtch的返回值1 当作NewProc 的返回值放入了EAX 寄存器中，在这之后返回了Fork函数。\nFork 函数一看，嗯? 返回值是1？好好好，那么进入L 标签的if 标签执行，在这其中将0存储在父进程核心栈中EAX 寄存器对应的区域。接下来Fork返回，Sys_Fork系统调用返回，恢复系统调用现场。用户态程序从EAX 寄存器中拿到fork 的返回值0, 随即进入到else 分支中。\nif(i) #这里拿到的值为0 { ... } else #子进程进入这里执行！ { a=a+4; printf(“child : a = %d\\n”, \u0026a); } 到这里，fork 系统调用大概就说完了，这其中我花了大段的篇幅解释了1.1 小节末尾处的那个问题，略过了很多细节，比如NewProc函数中父进程的可交换部分复制给子进程的过程，以及子进程的User结构中指向相对地址映射表的指针的获取过程等等。这些内容较为细碎，但理解难度不大，因此在此不再赘述。\n",
+  "wordCount" : "2493",
+  "inLanguage": "en",
+  "datePublished": "2023-12-07T11:03:25+08:00",
+  "dateModified": "2023-12-07T11:03:25+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Moondok"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://Moondok.github.io/blogs/posts/tech/os_process_manage_fork_exit_wait/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Moondok's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://Moondok.github.io/blogs/imgs/avatar1.jfif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class=" dark" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://Moondok.github.io/blogs" accesskey="h" title="Moondok&#39;s Blogs (Alt + H)">
+                <img src="https://Moondok.github.io/blogs/imgs/avatar1.jfif" alt="" aria-label="logo"
+                    height="30">Moondok&#39;s Blogs</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://Moondok.github.io/blogs/search" title="🔍 Search (Alt &#43; /)" accesskey=/>
+                    <span>🔍 Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/posts" title="📓 Posts">
+                    <span>📓 Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/categories" title="📚 Categories">
+                    <span>📚 Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/archives/" title="⏱ Archives">
+                    <span>⏱ Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/tags" title="🔖 Tags">
+                    <span>🔖 Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/about" title="🙋🏻‍♂️ About">
+                    <span>🙋🏻‍♂️ About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/" title="🏠 Home">
+                    <span>🏠 Home</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      操作系统笔记-进程管理-创建与退出
+    </h1>
+    <div class="post-meta"><span title='2023-12-07 11:03:25 +0800 CST'>December 7, 2023</span>&nbsp;·&nbsp;Moondok
+
+</div>
+  </header> 
+                    
+                    <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0-%e8%af%b4%e6%98%8e" aria-label="0. 说明">0. 说明</a></li>
+                    <li>
+                        <a href="#1-fork" aria-label="1. fork">1. fork</a><ul>
+                            
+                    <li>
+                        <a href="#11-fork%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e7%ae%80%e4%bb%8b%e4%b8%8e%e8%8c%83%e4%be%8b" aria-label="1.1 fork系统调用简介与范例">1.1 fork系统调用简介与范例</a></li>
+                    <li>
+                        <a href="#12-fork-%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e4%bb%a3%e7%a0%81%e8%a7%a3%e9%87%8a" aria-label="1.2 fork 系统调用代码解释">1.2 fork 系统调用代码解释</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h1 id="0-说明">0. 说明<a hidden class="anchor" aria-hidden="true" href="#0-说明">#</a></h1>
+<p>该系列小结为我在2023年秋修读同济大学操作系统课程的笔记，我校的操作系统课程主要以<code>Unix v6</code> 为范例进行剖析，因此以下的所有内容只适用于<code>Unix v6</code> 操作系统内核。另外，我校操作系统课程组对于<code>Unix v6</code> 操作系统的原始代码进行了面向对象的重构，下面给出的所有代码均为重构过后的代码片段。</p>
+<h1 id="1-fork">1. fork<a hidden class="anchor" aria-hidden="true" href="#1-fork">#</a></h1>
+<h2 id="11-fork系统调用简介与范例">1.1 fork系统调用简介与范例<a hidden class="anchor" aria-hidden="true" href="#11-fork系统调用简介与范例">#</a></h2>
+<p><code>fork</code> 是一个系统调用，其主要功用为创建一个和当前进程 <strong>完全相同</strong> 的进程，新创建的进程为当前进程的子进程，二者的可交换部分完全相同，但彼此隔离，互不干扰，代码段共享。<code>fork</code> 的返回值是新创建的子进程的<code>pid</code>。</p>
+<p>下面是一个在用户态下调用<code>fork</code> 系统调用的代码示例片段。</p>
+<pre><code class="language-C">int a=0;
+main( )
+{
+    int i ;
+    while( ( i=fork( ) ) == -1 );
+    if(i)
+    {
+        a = a+1;
+        printf(“parent : a = %d\n”, &amp;a);
+    }
+    else
+    {
+        a=a+4;
+        printf(“child : a = %d\n”, &amp;a);
+     }
+}
+</code></pre>
+<p>在上面的代码段中，我们首先通过<code>fork</code> 创建了一个子进程，其<code>pid</code> 存储在<code>i</code> 变量中。在<code>fork</code> 系统调用成功创建新进程并准备返回时（系统调用入口程序<code>SystemCallEntrance</code>函数），系统执行例行调度。此时，新创建的子进程和原进程都可能被调度上台，具体情况由0号进程决定。</p>
+<ul>
+<li>
+<p>假如原进程被先调度上台，则由于子进程创建成功，<code>pid</code> 势必不为0，进入<code>if</code> 分支，将<code>a</code> 的值改为<code>1</code> ,并执行打印。在这之后原进程结束，子进程上台，进入<code>else</code> 分支，将<code>a</code> 的值改为4 （<strong>注意</strong> ：子进程和父进程的数据段相互隔离，因此子进程中<code>a</code>的值仍为0），并进行打印，应用程序的输出为：</p>
+<pre><code>parent : a=1
+child : a=4
+</code></pre>
+</li>
+<li>
+<p>假如子进程被先调度上台，则进入<code>else</code> 分支，修改<code>a</code> 的值后打印。子进程结束后父进程被调度上台，进入<code>if</code> 分支后修改<code>a</code> 的值后执行打印，因此应用程序的输出为 :</p>
+<pre><code>child : a=4
+parent : a=1
+</code></pre>
+</li>
+</ul>
+<p><strong>问题：</strong> 看到这里大家想必会有一个疑问，为什么子进程上台之后会进入<code>else</code> 分支执行呢？</p>
+<p>这是一个比较复杂的问题，我们需要读一读代码才能说清楚这件事。</p>
+<h2 id="12-fork-系统调用代码解释">1.2 fork 系统调用代码解释<a hidden class="anchor" aria-hidden="true" href="#12-fork-系统调用代码解释">#</a></h2>
+<p>用户态下执行<code>fork</code> 系统调用的钩子函数如下</p>
+<pre><code class="language-C">int fork()
+{
+    int res;
+    __asm__ __volatile__ ( &quot;int $0x80&quot;:&quot;=a&quot;(res):&quot;a&quot;(2)); // 2#系统调用
+    if ( res &gt;= 0 )
+    	return res;
+    return -1;
+}
+</code></pre>
+<p>这段代码很好理解，即使用<code>int 0x80</code> 指令让系统陷入内核后执行2号系统调用<code>fork</code>。</p>
+<p><code>fork</code> 系统调用的函数如下</p>
+<pre><code class="language-C">int SystemCall::Sys_Fork()
+{
+    ProcessManager&amp; procMgr = Kernel::Instance().GetProcessManager();
+    procMgr.Fork();
+    return 0;
+    /* GCC likes it ! */
+}
+</code></pre>
+<p>可以看到在系统调用函数中，我们获取了内核的<code>ProcessManager</code> 对象，并执行其<code>Fork</code> 方法，接下来我们我们进入<code>Fork</code>函数内部去看看。</p>
+<pre><code class="language-C">void ProcessManager::Fork()
+{
+    User&amp; u = Kernel::Instance().GetUser();
+    Process* child = NULL;;
+    /* 为子进程分配空闲的 process 项 */
+    for ( int i = 0; i &lt; ProcessManager::NPROC; i++ )
+    {
+    	if ( this-&gt;process[i].p_stat == Process::SNULL )
+        {
+            child = &amp;this-&gt;process[i];
+            break;
+        }
+    }
+    if ( child == NULL )
+    {
+        /* 没有空闲 process 表项，返回 */
+        u.u_error = User::EAGAIN;
+        return;
+    }
+    /* 调用 Newproc( )创建子进程，复制父进程图像 */
+    L： 
+    if ( this-&gt;NewProc() )
+    { 	/*
+        新建子进程被 Swtch( )选中上台运行，
+        *执行 Swtch( )函数逻辑，返回值是 1
+        *运行于 Newproc( )栈帧，返回地址是 if 语句。*/
+        u.u_ar0[User::EAX] = 0;
+        // 子进程 fork()系统调用返回 0
+        u.u_cstime = 0;
+        // 清 0 子进程的时间统计量
+        u.u_stime = 0;
+        u.u_cutime = 0;
+        u.u_utime = 0;
+    }
+    else
+    { /* 子进程图像创建完毕后，父进程 Newproc( )返回 0 */
+    	u.u_ar0[User::EAX] = child-&gt;p_pid; // 父进程 fork()系统调用的返回值是子进程的 pid
+    }
+    return;
+}
+</code></pre>
+<p>在这个函数中，我们首先在<code>process</code> 表中查看有无空闲的表项，接着调用<code>NewProc</code> 函数。<code>NewProc</code> 函数的代码段很长，在此就不给出了，其主要功用是将父进程的可交换部分复制给子进程，且将子进程<code>User</code> 结构中的相对表指针<code>u_MemoryDescriptor.m_UserPageTableArray</code> 指向子进程的相对表。在完成了上述工作后，<code>NewProc</code>函数返回0。</p>
+<p>我们先停一下理一理头绪，现在我们的子进程已经创建起来了，其核心栈中栈顶处的几个栈帧分别为<code>NewProc</code>, <code>Fork</code> 和<code>Sys_Fork</code> ，子进程<code>User</code> 结构中的<code>u_srav</code> 中存储的<code>esp</code>和<code>ebp</code> 指针分别指向的是核心栈顶的<code>NewProc</code>栈帧的顶和底。</p>
+<p>当父进程的<code>NewProc</code> 返回时，其返回<code>L</code> 标签处的<code>else</code> 分支执行（<code>NewProc</code>的返回值为0），将新创建的子进程的<code>pid</code>存储在父进程核心栈中<code>EAX</code> 寄存器对应的区域以便我们在系统调用返回时能将返回值（即为子进程<code>pid</code> ）带入<code>EAX</code> 寄存器中。</p>
+<p>接下来<code>Fork</code> 函数返回，<code>Sys_Fork</code> 系统调用返回，在系统调用入口程序下半段执行例行调度<code>Swtch</code> 函数。</p>
+<ul>
+<li>
+<p>假如此时被调度上台的还是父进程，则父进程通过自己的<code>User</code> 结构中的<code>u_srav</code> 找到<code>Swtch</code> 栈帧，执行<code>Swtch</code>的后半段后将其栈帧撤销，在这之后，返回系统调用入口程序的后半部分执行，回到用户态，非常合理顺畅。</p>
+</li>
+<li>
+<p>假如此时被调度上台的是我们新创建的子进程，则同样可以根据子进程的<code>User</code> 结构中的<code>u_srav</code> 找到&hellip; 慢着！子进程核心栈中有<code>Swtch</code>吗，没有啊！子进程是被父进程创建出来的，其从来就没执行过，上哪去找<code>Swtch</code> 栈帧？</p>
+<p>好，知道了这一点，让我们看看接下来会发生什么。尽管子进程中没有<code>Swtch</code> 栈帧，但<code>Swtch</code> 下半段还是要走，我们将<code>Swtch</code> 的返回值 <code>1</code> 熟练地放进<code>EAX</code> 寄存器中，然后撤销核心栈中栈顶的那个栈帧，对应的汇编代码如下</p>
+<pre><code class="language-assembly">mov $1 %eax
+mox %ebp %esp
+pop %ebp
+ret
+</code></pre>
+<p>那么此时我们撤销的栈帧是哪个倒霉蛋的呢？没错，就是<code>NewProc</code> 函数的栈帧！（这一点在上面提到过）换句话说，我们把<code>NewProc</code> 的栈帧当作<code>Swtch</code> 栈帧撤销掉了，并把<code>Swtch</code>的返回值<code>1</code> 当作<code>NewProc</code> 的返回值放入了<code>EAX</code> 寄存器中，在这之后返回了<code>Fork</code>函数。</p>
+<p><code>Fork</code> 函数一看，嗯? 返回值是1？好好好，那么进入<code>L</code> 标签的<code>if</code> 标签执行，在这其中将<code>0</code>存储在父进程核心栈中<code>EAX</code> 寄存器对应的区域。接下来<code>Fork</code>返回，<code>Sys_Fork</code>系统调用返回，恢复系统调用现场。用户态程序从<code>EAX</code> 寄存器中拿到<code>fork</code> 的返回值<code>0</code>, 随即进入到<code>else</code> 分支中。</p>
+<pre><code class="language-C">if(i) #这里拿到的值为0
+{
+	...
+}
+else #子进程进入这里执行！
+{
+    a=a+4;
+    printf(“child : a = %d\n”, &amp;a);
+}
+</code></pre>
+</li>
+</ul>
+<p>到这里，<code>fork</code> 系统调用大概就说完了，这其中我花了大段的篇幅解释了<strong>1.1</strong> 小节末尾处的那个问题，略过了很多细节，比如<code>NewProc</code>函数中父进程的可交换部分复制给子进程的过程，以及子进程的<code>User</code>结构中指向相对地址映射表的指针的获取过程等等。这些内容较为细碎，但理解难度不大，因此在此不再赘述。</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://Moondok.github.io/blogs/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li>
+      <li><a href="https://Moondok.github.io/blogs/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/">进程管理</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://Moondok.github.io/blogs">Moondok&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
