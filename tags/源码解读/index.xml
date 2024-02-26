@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>tech on Moondok&#39;s Blog</title>
-    <link>https://Moondok.github.io/blogs/categories/tech/</link>
-    <description>Recent content in tech on Moondok&#39;s Blog</description>
+    <title>源码解读 on Moondok&#39;s Blog</title>
+    <link>https://Moondok.github.io/blogs/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/</link>
+    <description>Recent content in 源码解读 on Moondok&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Feb 2024 22:40:40 +0800</lastBuildDate><atom:link href="https://Moondok.github.io/blogs/categories/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Feb 2024 22:40:40 +0800</lastBuildDate><atom:link href="https://Moondok.github.io/blogs/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>开始写一些重要工作的代码解读</title>
       <link>https://Moondok.github.io/blogs/posts/tech/2024_02_26_starting_engaging_research/</link>
@@ -14,15 +14,6 @@
       
       <guid>https://Moondok.github.io/blogs/posts/tech/2024_02_26_starting_engaging_research/</guid>
       <description>0. 前言 图形学大牛王华民在知乎上面的一篇回答中写到，搞科研分为这么几个阶段，首先是入门阶段，这个阶段需要掌握一些知识和工具，知道一些方向和它们</description>
-    </item>
-    
-    <item>
-      <title>操作系统笔记-进程管理-创建与退出</title>
-      <link>https://Moondok.github.io/blogs/posts/tech/os_process_manage_fork_exit_wait/</link>
-      <pubDate>Thu, 07 Dec 2023 11:03:25 +0800</pubDate>
-      
-      <guid>https://Moondok.github.io/blogs/posts/tech/os_process_manage_fork_exit_wait/</guid>
-      <description></description>
     </item>
     
   </channel>
