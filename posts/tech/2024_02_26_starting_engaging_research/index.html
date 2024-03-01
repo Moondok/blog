@@ -5,9 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>开始写一些重要工作的代码解读 | Moondok&#39;s Blog</title>
+<title>我准备开始写一些重要工作的代码解读 | Moondok&#39;s Blog</title>
 <meta name="keywords" content="科研, NeRF, 源码解读">
-<meta name="description" content="开始写一些重要工作的代码解读 - Moondok&#39;s Blog">
+<meta name="description" content="我准备开始写一些重要工作的代码解读 - Moondok&#39;s Blog">
 <meta name="author" content="Moondok">
 <link rel="canonical" href="https://Moondok.github.io/blogs/posts/tech/2024_02_26_starting_engaging_research/">
 <link crossorigin="anonymous" href="/blogs/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
@@ -29,7 +29,7 @@
     </style>
 </noscript>
 
-<meta property="og:title" content="开始写一些重要工作的代码解读" />
+<meta property="og:title" content="我准备开始写一些重要工作的代码解读" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://Moondok.github.io/blogs/posts/tech/2024_02_26_starting_engaging_research/" /><meta property="article:section" content="posts" />
@@ -37,7 +37,7 @@
 <meta property="article:modified_time" content="2024-02-26T22:40:40+08:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="开始写一些重要工作的代码解读"/>
+<meta name="twitter:title" content="我准备开始写一些重要工作的代码解读"/>
 <meta name="twitter:description" content=""/>
 
 
@@ -61,7 +61,7 @@
     {
       "@type": "ListItem",
       "position":  4 ,
-      "name": "开始写一些重要工作的代码解读",
+      "name": "我准备开始写一些重要工作的代码解读",
       "item": "https://Moondok.github.io/blogs/posts/tech/2024_02_26_starting_engaging_research/"
     }
   ]
@@ -71,14 +71,14 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "开始写一些重要工作的代码解读",
-  "name": "开始写一些重要工作的代码解读",
+  "headline": "我准备开始写一些重要工作的代码解读",
+  "name": "我准备开始写一些重要工作的代码解读",
   "description": "",
   "keywords": [
     "科研", "NeRF", "源码解读"
   ],
-  "articleBody": "0. 前言 图形学大牛王华民在知乎上面的一篇回答中写到，搞科研分为这么几个阶段，首先是入门阶段，这个阶段需要掌握一些知识和工具，知道一些方向和它们的经典工作；接下来是上手阶段，这个阶段要学习研究的套路，学会知道研究什么问题；然后是灌水阶段和聚焦阶段（这俩阶段离我稍远就不说了）。这个回答写的很好，链接在这里。\n目前对于Neural Rendering这块，我确实读了一些文章了，但涉及到具体实现，也就是上手动或者写一个项目还是有点慌，一方面确实是拿Python几乎没怎么写过大一点的project, 另一方面也是由于之前看code大多更关注模型的定义，而要让这个model跑起来，还需要很多步骤。\n为了改善这一状况，争取更好更早地完成上手阶段，迈入灌水阶段，我决定好好读几个project的code. 这个算是第一篇。\n最近在帮着学长搞3D scene segmentation via Neural Rendering的事情，而这块做的最早的是Davison教授组的一篇semantic_nerf, 我们就从它开始。\n",
-  "wordCount" : "422",
+  "articleBody": "0. 前言 图形学大牛王华民在知乎上面的一篇回答中写到，搞科研分为这么几个阶段，首先是入门阶段，这个阶段需要掌握一些知识和工具，知道一些方向和它们的经典工作；接下来是上手阶段，这个阶段要学习研究的套路，学会知道研究什么问题；然后是灌水阶段和聚焦阶段（这俩阶段离我稍远就不说了）。这个回答写的很好，链接在这里。\n目前对于Neural Rendering这块，我确实读了一些文章了，但涉及到具体实现，也就是上手动或者写一个项目还是有点慌，一方面确实是拿Python几乎没怎么写过大一点的project, 另一方面也是由于之前看code大多更关注模型的定义，而要让这个model跑起来，还需要很多步骤。\n为了改善这一状况，争取更好更早地完成上手阶段，迈入灌水阶段，我决定好好读几个project的code. 这个算是第一篇。\n最近在帮着学长搞3D scene segmentation via Neural Rendering的事情，而这块做的最早的是Davison教授组的一篇semantic_nerf, 我们就从它开始。\nData preparation",
+  "wordCount" : "424",
   "inLanguage": "en",
   "datePublished": "2024-02-26T22:40:40+08:00",
   "dateModified": "2024-02-26T22:40:40+08:00",
@@ -184,7 +184,7 @@
   <header class="post-header">
     
     <h1 class="post-title">
-      开始写一些重要工作的代码解读
+      我准备开始写一些重要工作的代码解读
     </h1>
     <div class="post-meta"><span title='2024-02-26 22:40:40 +0800 CST'>February 26, 2024</span>&nbsp;·&nbsp;Moondok
 
@@ -200,7 +200,9 @@
 
             <div class="inner"><ul>
                     <li>
-                        <a href="#0-%e5%89%8d%e8%a8%80" aria-label="0. 前言">0. 前言</a>
+                        <a href="#0-%e5%89%8d%e8%a8%80" aria-label="0. 前言">0. 前言</a></li>
+                    <li>
+                        <a href="#data-preparation" aria-label="Data preparation">Data preparation</a>
                     </li>
                 </ul>
             </div>
@@ -272,6 +274,7 @@
 <p>目前对于Neural Rendering这块，我确实读了一些文章了，但涉及到具体实现，也就是上手动或者写一个项目还是有点慌，一方面确实是拿Python几乎没怎么写过大一点的project, 另一方面也是由于之前看code大多更关注模型的定义，而要让这个model跑起来，还需要很多步骤。</p>
 <p>为了改善这一状况，争取更好更早地完成上手阶段，迈入灌水阶段，我决定好好读几个project的code. 这个算是第一篇。</p>
 <p>最近在帮着学长搞3D scene segmentation via Neural Rendering的事情，而这块做的最早的是Davison教授组的一篇<a href="https://github.com/Harry-Zhi/semantic_nerf?tab=readme-ov-file">semantic_nerf</a>, 我们就从它开始。</p>
+<h1 id="data-preparation">Data preparation<a hidden class="anchor" aria-hidden="true" href="#data-preparation">#</a></h1>
 
   </div>
 

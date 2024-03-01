@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>leetcode刷题笔记（一） 贪心篇 | Moondok&#39;s Blog</title>
+<meta name="keywords" content="算法, 贪心策略">
+<meta name="description" content="0. 理论 贪心算法的基本要素包括两个部分，分别是： 贪心选择性质：所求问题的整体最优解可以通过一系列的局部最优解得到 最优子结构性质：一个问题的最优">
+<meta name="author" content="Moondok">
+<link rel="canonical" href="https://Moondok.github.io/blogs/posts/tech/2024_03_01_algorithm_notes_greedy/">
+<link crossorigin="anonymous" href="/blogs/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/blogs/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="apple-touch-icon" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="mask-icon" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+
+<meta property="og:title" content="leetcode刷题笔记（一） 贪心篇" />
+<meta property="og:description" content="0. 理论 贪心算法的基本要素包括两个部分，分别是： 贪心选择性质：所求问题的整体最优解可以通过一系列的局部最优解得到 最优子结构性质：一个问题的最优" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Moondok.github.io/blogs/posts/tech/2024_03_01_algorithm_notes_greedy/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-01T20:10:34+08:00" />
+<meta property="article:modified_time" content="2024-03-01T20:10:34+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="leetcode刷题笔记（一） 贪心篇"/>
+<meta name="twitter:description" content="0. 理论 贪心算法的基本要素包括两个部分，分别是： 贪心选择性质：所求问题的整体最优解可以通过一系列的局部最优解得到 最优子结构性质：一个问题的最优"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://Moondok.github.io/blogs/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "👨‍💻 tech",
+      "item": "https://Moondok.github.io/blogs/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "leetcode刷题笔记（一） 贪心篇",
+      "item": "https://Moondok.github.io/blogs/posts/tech/2024_03_01_algorithm_notes_greedy/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "leetcode刷题笔记（一） 贪心篇",
+  "name": "leetcode刷题笔记（一） 贪心篇",
+  "description": "0. 理论 贪心算法的基本要素包括两个部分，分别是： 贪心选择性质：所求问题的整体最优解可以通过一系列的局部最优解得到 最优子结构性质：一个问题的最优",
+  "keywords": [
+    "算法", "贪心策略"
+  ],
+  "articleBody": "0. 理论 贪心算法的基本要素包括两个部分，分别是：\n贪心选择性质：所求问题的整体最优解可以通过一系列的局部最优解得到 最优子结构性质：一个问题的最优解包含其子问题的最优解 note that 动态规划只包含第二个性质，因此我们需要把每个子问题的最优解都存储起来。\n1. 实践 Non-overlapping Intervals - LeetCode 435 解析：这个题是贪心算法最典型的问题——活动安排问题换了一个问法。题目既然最少要求删去多少个interval才能使得剩余的interval不重叠，那我们只需要求最多能排列几个不重叠的interval即可。因此我们的做法应该是：我们按照所有间隔的终止时间进行排序，然后从头到尾进行遍历，如果后一个间隔的开始时间大于等于前一个的终止时间，便可以排下，否则舍弃掉后一个间隔。\n上代码：\nclass Solution { public: static bool cmp(const std::vector \u0026 a,const std::vector \u0026b) { return a.at(1)",
+  "wordCount" : "1410",
+  "inLanguage": "en",
+  "datePublished": "2024-03-01T20:10:34+08:00",
+  "dateModified": "2024-03-01T20:10:34+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Moondok"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://Moondok.github.io/blogs/posts/tech/2024_03_01_algorithm_notes_greedy/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Moondok's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://Moondok.github.io/blogs/imgs/avatar1.jfif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class=" dark" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://Moondok.github.io/blogs" accesskey="h" title="Moondok&#39;s Blogs (Alt + H)">
+                <img src="https://Moondok.github.io/blogs/imgs/avatar1.jfif" alt="" aria-label="logo"
+                    height="30">Moondok&#39;s Blogs</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://Moondok.github.io/blogs/search" title="🔍 Search (Alt &#43; /)" accesskey=/>
+                    <span>🔍 Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/posts" title="📓 Posts">
+                    <span>📓 Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/categories" title="📚 Categories">
+                    <span>📚 Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/archives/" title="⏱ Archives">
+                    <span>⏱ Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/tags" title="🔖 Tags">
+                    <span>🔖 Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/about" title="🙋🏻‍♂️ About">
+                    <span>🙋🏻‍♂️ About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/" title="🏠 Home">
+                    <span>🏠 Home</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      leetcode刷题笔记（一） 贪心篇
+    </h1>
+    <div class="post-meta"><span title='2024-03-01 20:10:34 +0800 CST'>March 1, 2024</span>&nbsp;·&nbsp;Moondok
+
+</div>
+  </header> 
+                    
+                    <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0-%e7%90%86%e8%ae%ba" aria-label="0. 理论">0. 理论</a></li>
+                    <li>
+                        <a href="#1-%e5%ae%9e%e8%b7%b5" aria-label="1. 实践">1. 实践</a><ul>
+                            
+                    <li>
+                        <a href="#non-overlapping-intervals---leetcode-435httpsleetcodecomproblemsnon-overlapping-intervalsdescription" aria-label="Non-overlapping Intervals - LeetCode 435"><a href="https://leetcode.com/problems/non-overlapping-intervals/description/">Non-overlapping Intervals - LeetCode 435</a></a></li>
+                    <li>
+                        <a href="#minimum-number-of-arrows-to-burst-balloons---leetcode-452httpsleetcodecomproblemsminimum-number-of-arrows-to-burst-balloonsdescription" aria-label="Minimum Number of Arrows to Burst Balloons - LeetCode 452"><a href="https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/">Minimum Number of Arrows to Burst Balloons - LeetCode 452</a></a></li>
+                    <li>
+                        <a href="#partition-labels---leetcode-763httpsleetcodecomproblemspartition-labelsdescription" aria-label="Partition Labels - LeetCode 763"><a href="https://leetcode.com/problems/partition-labels/description/">Partition Labels - LeetCode 763</a></a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="0-理论">0. 理论<a hidden class="anchor" aria-hidden="true" href="#0-理论">#</a></h2>
+<p>贪心算法的基本要素包括两个部分，分别是：</p>
+<ul>
+<li>贪心选择性质：所求问题的整体最优解可以通过一系列的局部最优解得到</li>
+<li>最优子结构性质：一个问题的最优解包含其子问题的最优解</li>
+</ul>
+<p>note that 动态规划只包含第二个性质，因此我们需要把每个子问题的最优解都存储起来。</p>
+<h2 id="1-实践">1. 实践<a hidden class="anchor" aria-hidden="true" href="#1-实践">#</a></h2>
+<h3 id="non-overlapping-intervals---leetcode-435httpsleetcodecomproblemsnon-overlapping-intervalsdescription"><a href="https://leetcode.com/problems/non-overlapping-intervals/description/">Non-overlapping Intervals - LeetCode 435</a><a hidden class="anchor" aria-hidden="true" href="#non-overlapping-intervals---leetcode-435httpsleetcodecomproblemsnon-overlapping-intervalsdescription">#</a></h3>
+<p><strong>解析</strong>：这个题是贪心算法最典型的问题——活动安排问题换了一个问法。题目既然最少要求删去多少个interval才能使得剩余的interval不重叠，那我们只需要求最多能排列几个不重叠的interval即可。因此我们的做法应该是：我们按照所有间隔的终止时间进行排序，然后从头到尾进行遍历，如果后一个间隔的开始时间大于等于前一个的终止时间，便可以排下，否则舍弃掉后一个间隔。</p>
+<p>上代码：</p>
+<pre><code class="language-c++">class Solution {
+public:
+    static bool cmp(const std::vector&lt;int&gt; &amp; a,const std::vector&lt;int&gt; &amp;b)
+    {
+        return a.at(1)&lt;b.at(1);
+    }
+
+
+    int eraseOverlapIntervals(vector&lt;vector&lt;int&gt;&gt;&amp; intervals) {
+        std::sort(intervals.begin(),intervals.end(),cmp);
+
+        int n = intervals.size();
+        int n_compatible = 0;
+        int pre_end_time = -50001;  //题目中说最早的开始时间是-50000
+        for(auto &amp; interval : intervals)
+        {
+            if(interval.at(0)&gt;=pre_end_time)
+            {
+                n_compatible++;
+                pre_end_time = interval.at(1);
+            }
+        }
+        return n - n_compatible;
+        
+    }
+};
+</code></pre>
+<h3 id="minimum-number-of-arrows-to-burst-balloons---leetcode-452httpsleetcodecomproblemsminimum-number-of-arrows-to-burst-balloonsdescription"><a href="https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/">Minimum Number of Arrows to Burst Balloons - LeetCode 452</a><a hidden class="anchor" aria-hidden="true" href="#minimum-number-of-arrows-to-burst-balloons---leetcode-452httpsleetcodecomproblemsminimum-number-of-arrows-to-burst-balloonsdescription">#</a></h3>
+<p><strong>解析</strong> 上一个题目是为了让不同的区间尽可能错开，这个题目则反其道行之，旨在让不同的区间尽可能相交，试想如果我们能让一支箭正好射中多个气球的交接处，那样便可以用最少的箭射爆所有气球。因此我们的做法是：按照气球的左端点从小到大排序，遍历得到的序列，在遍历的时候维护一个值x，该值代表上一个箭射击的位置，这个值同时也是其所能射爆的所有气球中右端点最小的一个。在遍历过程中，如果某个气球其左端点比x要大，那么说明上一只箭无法覆盖当前气球，只能多花一只箭；否则说明上一只箭头可以射中当前这只气球，不需要新增箭，这时需要注意，我们需要将x的值更新为新气球的左端点和x中更小的一个。这是因为，如果上一只箭覆盖的气球是[1,6] [2,7],如果新的气球是[2,5] 的话，这只箭最远只能射在5的位置才能保证射爆3只气球</p>
+<p>上代码</p>
+<pre><code class="language-c++">class Solution {
+public:
+    static bool cmp(const std::vector&lt;int&gt; &amp; a, const std::vector&lt;int&gt; &amp; b) 
+    {
+        return a.at(0)&lt;b.at(0);
+    }
+
+    int findMinArrowShots(vector&lt;vector&lt;int&gt;&gt;&amp; points) {
+        std::sort(points.begin(),points.end(),cmp);
+        int min_right_bound= points.at(0).at(1); //第一个区间的右侧边界作为起点
+
+        int ans=1;
+
+        for(int i=0;i&lt;points.size();i++)
+        {
+            if(points.at(i).at(0)&lt;=min_right_bound)//要是后面的点的左边界比当前点的右边界小，那就可以共享一支箭头
+            {
+                if(points.at(i).at(1)&lt;min_right_bound)
+                    min_right_bound=points.at(i).at(1);
+                continue;
+            }
+                
+            else
+            {
+                ans++;
+                min_right_bound=points.at(i).at(1);
+            }
+        }
+        return ans; 
+    }
+};
+</code></pre>
+<h3 id="partition-labels---leetcode-763httpsleetcodecomproblemspartition-labelsdescription"><a href="https://leetcode.com/problems/partition-labels/description/">Partition Labels - LeetCode 763</a><a hidden class="anchor" aria-hidden="true" href="#partition-labels---leetcode-763httpsleetcodecomproblemspartition-labelsdescription">#</a></h3>
+<p><strong>解析</strong> 这一题和上一题极为相似但在细节上又有微妙的不同。要求我们划分尽可能多的区间，但需要保证对于每一个字母，该字母只能在一个区间内出现。因此对于每个单词我们维护一个hash table, 记录其第一次出现的位置和最后一次出现的位置，在我们最后的结果中，这个区间必定是其中一个区间的子集。而如果有两个字母的存在区间但凡有一点重叠，我们就必须将其扩充成一个新的大区间。因此我们的做法是：将字母按照第一次出现的位置进行排列，从左到右遍历，如果新出现的字母的第一次出现的位置大于当前维护区间的右端点，我们就开一个新的区间；否则，我们就把这个区间合并在原有区间里面。这里需要注意的是，新区间的右端点是要取一个最大值（这里和上一题进行对比，上一题在更新箭的位置时是取最小值因为要保证一支箭可以射中所有气球；这里取较大值是为了保证当前的区间可以覆盖当前的字母，比如前一个字母的区间是[1,5] , 后一个是[2, 6], 那么至少得需要一个[1,6] 的区间。</p>
+<p>上代码</p>
+<pre><code class="language-c++">struct info
+{
+    char ch;
+    int first_pos=-1;
+    int last_pos=0;
+    bool operator&lt;(const info &amp; a)const
+    {
+        return this-&gt;first_pos&lt;a.first_pos;
+    }
+
+};
+
+class Solution {
+public:
+    vector&lt;int&gt; partitionLabels(string s) {
+        //std::map&lt;int,info&gt; letter2info;
+
+        std::vector&lt;info&gt; letter2info(26); //只有26个字母，用vector作hash好了
+
+        for(int i=0;i&lt;26;i++)
+            letter2info.at(i).ch='a'+i;
+
+        for (int i=0;i&lt;s.size();i++)
+        {
+            if(letter2info.at(s.at(i)-'a').first_pos==-1)
+                letter2info.at(s.at(i)-'a').first_pos=i;
+            letter2info.at(s.at(i)-'a').last_pos=i;
+        }
+        std::sort(letter2info.begin(),letter2info.end());
+        std::vector&lt;int&gt; ans;
+
+        int start;
+
+        for(int i=0;i&lt;26;i++)
+        {
+            if(letter2info.at(i).first_pos!=-1)
+            {
+                start=i;
+                break;
+            }
+        }
+        int right_bound= letter2info.at(start).last_pos;
+        int left_bound=letter2info.at(start).first_pos;
+
+        for( int i=start+1; i&lt;26 ;i++)
+        {
+            if(letter2info.at(i).first_pos&lt;=right_bound)
+               right_bound=std::max(right_bound,letter2info.at(i).last_pos)
+            else //新的区间
+            {
+                ans.push_back(right_bound-left_bound+1);
+                left_bound=letter2info.at(i).first_pos;
+                right_bound=letter2info.at(i).last_pos;
+            }
+        }
+        ans.push_back(right_bound-left_bound+1);
+        return ans;
+    }
+};
+</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://Moondok.github.io/blogs/tags/%E7%AE%97%E6%B3%95/">算法</a></li>
+      <li><a href="https://Moondok.github.io/blogs/tags/%E8%B4%AA%E5%BF%83%E7%AD%96%E7%95%A5/">贪心策略</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://Moondok.github.io/blogs">Moondok&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

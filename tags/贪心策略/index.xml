@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>贪心策略 on Moondok&#39;s Blog</title>
+    <link>https://Moondok.github.io/blogs/tags/%E8%B4%AA%E5%BF%83%E7%AD%96%E7%95%A5/</link>
+    <description>Recent content in 贪心策略 on Moondok&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 01 Mar 2024 20:10:34 +0800</lastBuildDate><atom:link href="https://Moondok.github.io/blogs/tags/%E8%B4%AA%E5%BF%83%E7%AD%96%E7%95%A5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>leetcode刷题笔记（一） 贪心篇</title>
+      <link>https://Moondok.github.io/blogs/posts/tech/2024_03_01_algorithm_notes_greedy/</link>
+      <pubDate>Fri, 01 Mar 2024 20:10:34 +0800</pubDate>
+      
+      <guid>https://Moondok.github.io/blogs/posts/tech/2024_03_01_algorithm_notes_greedy/</guid>
+      <description>0. 理论 贪心算法的基本要素包括两个部分，分别是： 贪心选择性质：所求问题的整体最优解可以通过一系列的局部最优解得到 最优子结构性质：一个问题的最优</description>
+    </item>
+    
+  </channel>
+</rss>
