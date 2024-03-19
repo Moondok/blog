@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>leetcode刷题笔记（二） 排序篇 | Moondok&#39;s Blog</title>
+<meta name="keywords" content="算法, 排序">
+<meta name="description" content="常见排序算法的模板和性质、一些leetcode习题">
+<meta name="author" content="Moondok">
+<link rel="canonical" href="https://Moondok.github.io/blogs/posts/tech/algorithm_notes_sort/">
+<link crossorigin="anonymous" href="/blogs/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/blogs/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="apple-touch-icon" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<link rel="mask-icon" href="https://Moondok.github.io/blogs/imgs/avatar1.jfif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+
+<meta property="og:title" content="leetcode刷题笔记（二） 排序篇" />
+<meta property="og:description" content="常见排序算法的模板和性质、一些leetcode习题" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Moondok.github.io/blogs/posts/tech/algorithm_notes_sort/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-19T10:11:39+08:00" />
+<meta property="article:modified_time" content="2024-03-19T10:11:39+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="leetcode刷题笔记（二） 排序篇"/>
+<meta name="twitter:description" content="常见排序算法的模板和性质、一些leetcode习题"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://Moondok.github.io/blogs/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "👨‍💻 tech",
+      "item": "https://Moondok.github.io/blogs/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "leetcode刷题笔记（二） 排序篇",
+      "item": "https://Moondok.github.io/blogs/posts/tech/algorithm_notes_sort/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "leetcode刷题笔记（二） 排序篇",
+  "name": "leetcode刷题笔记（二） 排序篇",
+  "description": "常见排序算法的模板和性质、一些leetcode习题",
+  "keywords": [
+    "算法", "排序"
+  ],
+  "articleBody": "0. 理论 这一部分给出常见算法的模板及其性质（复杂度，稳定性 etc.).\n0.1 快速排序 快排的思想是divide and conquer, 通过一个Pivot元素将数组划分为两半，其中前一半小于pivot，后一半大于Pivot。然后在每个子数组中再执行相同步骤直到子数组不可再划分。\n最坏时间复杂度：O(n^2), 最好/平均时间复杂度：O(NlogN) 稳定性：不稳定\n给一个模板\nvoid quick_sort(vector \u0026nums, int l, int r) { if (l + 1 \u003e= r) { return; } int first = l, last = r - 1, key = nums[first]; while (first \u003c last){ while(first \u003c last \u0026\u0026 nums[last] \u003e= key) { --last; } nums[first] = nums[last]; while (first \u003c last \u0026\u0026 nums[first] \u003c= key) { ++first; } nums[last] = nums[first]; } nums[first] = key; quick_sort(nums, l, first); quick_sort(nums, first + 1, r); } quick_sort(nums,0,nums.size()) ;//调用方法 0.2 归并排序 归并排序的思想也是divide and conquer, 通过不断地将有序的子数组合并为更大的有序数组从而得到结果。\n最坏/最佳复杂度：O(NlogN) 稳定性：稳定\n注意一般来说我们写的都不是in place merge sort, 即一般都会传给函数一个额外的空间用于作数组合并，但也有in place的版本，在此不作赘述。\n给一个模板\nvoid merge_sort(vector \u0026nums, int l, int r, vector \u0026temp) { if (l + 1 \u003e= r) { return; } // divide int m = l + (r - l) / 2; merge_sort(nums, l, m, temp); merge_sort(nums, m, r, temp); // conquer int p = l, q = m, i = l; while (p \u003c m || q \u003c r) { if (q \u003e= r || (p \u003c m \u0026\u0026 nums[p] \u003c= nums[q])) { temp[i++] = nums[p++]; } else { temp[i++] = nums[q++]; } } for (i = l; i \u003c r; ++i) { nums[i] = temp[i]; } } merge_sort(nums,0,nums.size(),temp);// 调用方法 0.3 插入排序 插入排序很简单，但时间久了忘记了，写一下吧。\n插入排序的思想是使得有序的数组长度逐渐扩大，假设我们起初认为只有第一个元素是有序的，那么遍历到第二个元素时，检查第二个元素和第一个元素的大小关系，若第二个元素更大则将其插到第一个元素的前面，这样，我们就得到长度为2的有序序列了，以此类推，不断地将第n个元素插入到长度为n-1地有序数组中, 直到n=len(nums)。\n最坏/平均时间复杂度: O(N^2) 最好时间复杂度: O(N) 稳定性: 稳定\n",
+  "wordCount" : "703",
+  "inLanguage": "en",
+  "datePublished": "2024-03-19T10:11:39+08:00",
+  "dateModified": "2024-03-19T10:11:39+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Moondok"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://Moondok.github.io/blogs/posts/tech/algorithm_notes_sort/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Moondok's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://Moondok.github.io/blogs/imgs/avatar1.jfif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class=" dark" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://Moondok.github.io/blogs" accesskey="h" title="Moondok&#39;s Blogs (Alt + H)">
+                <img src="https://Moondok.github.io/blogs/imgs/avatar1.jfif" alt="" aria-label="logo"
+                    height="30">Moondok&#39;s Blogs</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://Moondok.github.io/blogs/search" title="🔍 Search (Alt &#43; /)" accesskey=/>
+                    <span>🔍 Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/posts" title="📓 Posts">
+                    <span>📓 Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/categories" title="📚 Categories">
+                    <span>📚 Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/archives/" title="⏱ Archives">
+                    <span>⏱ Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/tags" title="🔖 Tags">
+                    <span>🔖 Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/about" title="🙋🏻‍♂️ About">
+                    <span>🙋🏻‍♂️ About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Moondok.github.io/blogs/" title="🏠 Home">
+                    <span>🏠 Home</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      leetcode刷题笔记（二） 排序篇
+    </h1>
+    <div class="post-meta"><span title='2024-03-19 10:11:39 +0800 CST'>March 19, 2024</span>&nbsp;·&nbsp;Moondok
+
+</div>
+  </header> 
+                    
+                    <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0-%e7%90%86%e8%ae%ba" aria-label="0. 理论">0. 理论</a><ul>
+                            
+                    <li>
+                        <a href="#01-%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f" aria-label="0.1 快速排序">0.1 快速排序</a></li>
+                    <li>
+                        <a href="#02-%e5%bd%92%e5%b9%b6%e6%8e%92%e5%ba%8f" aria-label="0.2 归并排序">0.2 归并排序</a></li>
+                    <li>
+                        <a href="#03-%e6%8f%92%e5%85%a5%e6%8e%92%e5%ba%8f" aria-label="0.3 插入排序">0.3 插入排序</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="0-理论">0. 理论<a hidden class="anchor" aria-hidden="true" href="#0-理论">#</a></h2>
+<p>这一部分给出常见算法的模板及其性质（复杂度，稳定性 etc.).</p>
+<h3 id="01-快速排序">0.1 快速排序<a hidden class="anchor" aria-hidden="true" href="#01-快速排序">#</a></h3>
+<p>快排的思想是divide and conquer, 通过一个Pivot元素将数组划分为两半，其中前一半小于pivot，后一半大于Pivot。然后在每个子数组中再执行相同步骤直到子数组不可再划分。</p>
+<p>最坏时间复杂度：O(n^2),    最好/平均时间复杂度：O(NlogN)   稳定性：不稳定</p>
+<p>给一个模板</p>
+<pre><code class="language-c++">void quick_sort(vector&lt;int&gt; &amp;nums, int l, int r) {
+    if (l + 1 &gt;= r) {
+    	return;
+    }
+    int first = l, last = r - 1, key = nums[first];
+    while (first &lt; last){
+        while(first &lt; last &amp;&amp; nums[last] &gt;= key) 
+        {
+            --last;
+    	}
+        nums[first] = nums[last];
+        while (first &lt; last &amp;&amp; nums[first] &lt;= key) 
+        {
+        	++first;
+        }
+    	nums[last] = nums[first];
+    }
+    nums[first] = key;
+    quick_sort(nums, l, first);
+    quick_sort(nums, first + 1, r);
+}
+
+quick_sort(nums,0,nums.size()) ;//调用方法
+</code></pre>
+<h3 id="02-归并排序">0.2 归并排序<a hidden class="anchor" aria-hidden="true" href="#02-归并排序">#</a></h3>
+<p>归并排序的思想也是divide and conquer, 通过不断地将<strong>有序的</strong>子数组合并为更大的有序数组从而得到结果。</p>
+<p>最坏/最佳复杂度：O(NlogN)   稳定性：稳定</p>
+<p>注意一般来说我们写的都不是in place merge sort, 即一般都会传给函数一个额外的空间用于作数组合并，但也有in place的版本，在此不作赘述。</p>
+<p>给一个模板</p>
+<pre><code class="language-c++">void merge_sort(vector&lt;int&gt; &amp;nums, int l, int r, vector&lt;int&gt; &amp;temp) {
+    if (l + 1 &gt;= r) {
+    	return;
+    }
+    // divide
+    int m = l + (r - l) / 2;
+    merge_sort(nums, l, m, temp);
+    merge_sort(nums, m, r, temp);
+    // conquer
+    int p = l, q = m, i = l;
+    while (p &lt; m || q &lt; r) 
+    {
+        if (q &gt;= r || (p &lt; m &amp;&amp; nums[p] &lt;= nums[q])) 
+        {
+        	temp[i++] = nums[p++];
+    	} 
+    	else 
+    	{
+    		temp[i++] = nums[q++];
+    	}
+    }
+    for (i = l; i &lt; r; ++i) {
+    	nums[i] = temp[i];
+    }
+}
+
+merge_sort(nums,0,nums.size(),temp);// 调用方法
+</code></pre>
+<h3 id="03-插入排序">0.3 插入排序<a hidden class="anchor" aria-hidden="true" href="#03-插入排序">#</a></h3>
+<p>插入排序很简单，但时间久了忘记了，写一下吧。</p>
+<p>插入排序的思想是使得有序的数组长度逐渐扩大，假设我们起初认为只有第一个元素是有序的，那么遍历到第二个元素时，检查第二个元素和第一个元素的大小关系，若第二个元素更大则将其插到第一个元素的前面，这样，我们就得到长度为2的有序序列了，以此类推，不断地将第n个元素插入到长度为n-1地有序数组中, 直到n=len(nums)。</p>
+<p>最坏/平均时间复杂度: O(N^2)      最好时间复杂度: O(N)     稳定性: 稳定</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://Moondok.github.io/blogs/tags/%E7%AE%97%E6%B3%95/">算法</a></li>
+      <li><a href="https://Moondok.github.io/blogs/tags/%E6%8E%92%E5%BA%8F/">排序</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://Moondok.github.io/blogs">Moondok&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
